@@ -6,6 +6,7 @@
 #include <avr/wdt.h>
 
 
+
 #include "rotator_hardware.h"
 
 #ifdef HARDWARE_EA4TX_ARS_USB
@@ -3080,8 +3081,6 @@ char * azimuth_direction(int azimuth_in){
 
   azimuth_in = azimuth_in / HEADING_MULTIPLIER;
 
-
-
   if (azimuth_in > 348) {
     return N_STRING;
   }
@@ -3135,7 +3134,7 @@ char * azimuth_direction(int azimuth_in){
 } /* azimuth_direction */
 #endif /* ifdef FEATURE_LCD_DISPLAY */
 
-// --------------------------------------------------------------
+// --------------------------------------------------------------MATCAM
 #if defined(FEATURE_LCD_DISPLAY)
 void update_display(){
   if ((millis() - lastupdate) < 1000) return;
@@ -3151,7 +3150,7 @@ void update_display(){
   for (int x = 0;x < (LCD_ROWS+1);x++){row_override[x] = 0;}
 
   k3ngdisplay.clear_pending_buffer();
-
+*/
   #ifdef FEATURE_MOON_TRACKING
     static unsigned long last_moon_tracking_check_time = 0;
   #endif 
@@ -3159,12 +3158,11 @@ void update_display(){
   #ifdef FEATURE_SUN_TRACKING
     static unsigned long last_sun_tracking_check_time = 0;
   #endif
-*/
+
   // OPTION_DISPLAY_DIRECTION_STATUS - azimuth direction display ***********************************************************************************
   #if defined(OPTION_DISPLAY_DIRECTION_STATUS)   
-  strcpy(workstring,azimuth_direction(azimuth));  // TODO - add left/right/center
-  Serial.println(workstring);
-  
+  //strcat(workstring,azimuth_direction(azimuth));  // TODO - add left/right/center
+  sprintf(workstring,"%-3s ",azimuth_direction(azimuth));
   //k3ngdisplay.print_center_fixed_field_size(workstring,LCD_DIRECTION_ROW-1,LCD_STATUS_FIELD_SIZE);
   #endif //defined(OPTION_DISPLAY_DIRECTION_STATUS)
 
@@ -3172,7 +3170,7 @@ void update_display(){
   // OPTION_DISPLAY_HEADING - show heading ***********************************************************************************
   #if defined(OPTION_DISPLAY_HEADING)
     #if !defined(FEATURE_ELEVATION_CONTROL)                    // ---------------- az only -----------------------------------
-      strcpy(workstring,AZIMUTH_STRING);
+      strcat(workstring,AZIMUTH_STRING);
       switch(configuration.azimuth_display_mode){
         case AZ_DISPLAY_MODE_NORMAL:
         case AZ_DISPLAY_MODE_OVERLAP_PLUS:
@@ -3201,16 +3199,15 @@ void update_display(){
       strcat(workstring,workstring2);
       strcat(workstring,DISPLAY_DEGREES_STRING);
       //k3ngdisplay.print_center_fixed_field_size(workstring,LCD_HEADING_ROW-1,LCD_HEADING_FIELD_SIZE);
-      Serial.println(workstring);
     #else                                                       // --------------------az & el---------------------------------
       #if defined(FEATURE_ONE_DECIMAL_PLACE_HEADINGS) || defined(FEATURE_TWO_DECIMAL_PLACE_HEADINGS)
         if ((azimuth >= 1000) && (elevation >= 1000)) {
-          strcpy(workstring,AZ_STRING);
+          strcat(workstring,AZ_STRING);
         } else {
-          strcpy(workstring,AZ_SPACE_STRING);
+          strcat(workstring,AZ_SPACE_STRING);
         }
       #else
-        strcpy(workstring,AZ_SPACE_STRING);
+        strcat(workstring,AZ_SPACE_STRING);
       #endif // efined(FEATURE_ONE_DECIMAL_PLACE_HEADINGS) || defined(FEATURE_TWO_DECIMAL_PLACE_HEADINGS)
       switch(configuration.azimuth_display_mode){
         case AZ_DISPLAY_MODE_NORMAL:
@@ -3271,14 +3268,13 @@ void update_display(){
           strcat(workstring,DISPLAY_DEGREES_STRING);
         }
       #endif
-      //k3ngdisplay.print_center_fixed_field_size(workstring,LCD_HEADING_ROW-1,LCD_HEADING_FIELD_SIZE);    
-      serial.println(workstring);
+      //k3ngdisplay.print_center_fixed_field_size(workstring,LCD_HEADING_ROW-1,LCD_HEADING_FIELD_SIZE);
     #endif // FEATURE_ELEVATION_CONTROL
   #endif //defined(OPTION_DISPLAY_HEADING)  
 
   // OPTION_DISPLAY_HEADING_AZ_ONLY - show heading ***********************************************************************************
   #if defined(OPTION_DISPLAY_HEADING_AZ_ONLY)       
-    strcpy(workstring,AZIMUTH_STRING);
+    strcat(workstring,AZIMUTH_STRING);
       switch(configuration.azimuth_display_mode){
         case AZ_DISPLAY_MODE_NORMAL:
         case AZ_DISPLAY_MODE_OVERLAP_PLUS:
@@ -3307,7 +3303,6 @@ void update_display(){
     strcat(workstring,workstring2);
     strcat(workstring,DISPLAY_DEGREES_STRING);
     //k3ngdisplay.print_center_fixed_field_size(workstring,LCD_AZ_ONLY_HEADING_ROW-1,LCD_AZ_ONLY_HEADING_FIELD_SIZE);
-    Serial.println(workstring);
   #endif //defined(OPTION_DISPLAY_HEADING_AZ_ONLY)        
 
 
@@ -3320,7 +3315,7 @@ void update_display(){
           // strcpy(workstring,SPACE_EL_SPACE_STRING);
         // }
       // #else
-        strcpy(workstring,ELEVATION_STRING);
+        strcat(workstring,ELEVATION_STRING);
       // #endif // defined(FEATURE_ONE_DECIMAL_PLACE_HEADINGS) || defined(FEATURE_TWO_DECIMAL_PLACE_HEADINGS)
       dtostrf(elevation / LCD_HEADING_MULTIPLIER, 1, LCD_DECIMAL_PLACES, workstring2);
     #ifdef OPTION_LCD_HEADING_FIELD_FIXED_DECIMAL_PLACE
@@ -3338,7 +3333,6 @@ void update_display(){
       }
     #endif
     //k3ngdisplay.print_center_fixed_field_size(workstring,LCD_EL_ONLY_HEADING_ROW-1,LCD_EL_ONLY_HEADING_FIELD_SIZE);    
-    Serial.println(workstring);
   #endif //defined(OPTION_DISPLAY_HEADING_EL_ONLY)   
 
   // OPTION_DISPLAY_STATUS***********************************************************************************
@@ -3347,9 +3341,9 @@ void update_display(){
       if (az_state != IDLE) {
         if (az_request_queue_state == IN_PROGRESS_TO_TARGET) { 
           if (current_az_state() == ROTATING_CW) {
-            strcpy(workstring,CW_STRING);
+            strcat(workstring,CW_STRING);
           } else {
-            strcpy(workstring,CCW_STRING);
+            strcat(workstring,CCW_STRING);
           }
           strcat(workstring," ");
           switch(configuration.azimuth_display_mode){
@@ -3368,14 +3362,13 @@ void update_display(){
           strcat(workstring,DISPLAY_DEGREES_STRING);
         } else {
           if (current_az_state() == ROTATING_CW) {
-            strcpy(workstring,CW_STRING);
+            strcat(workstring,CW_STRING);
           } else {
-            strcpy(workstring,CCW_STRING);
+            strcat(workstring,CCW_STRING);
           }
         }
         //k3ngdisplay.print_center_fixed_field_size(workstring,LCD_STATUS_ROW-1,LCD_STATUS_FIELD_SIZE);
         //row_override[LCD_STATUS_ROW] = 1;
-        Serial.println(workstring);
       }
 
       #if defined(FEATURE_PARK)
@@ -3440,9 +3433,7 @@ void update_display(){
 
     #else                          // az & el ----------------------------------------------------------------------------
 
-
-
-      strcpy(workstring,"");
+      //strcpy(workstring,"");
       if (az_state != IDLE) {
         if (az_request_queue_state == IN_PROGRESS_TO_TARGET) { 
           if (current_az_state() == ROTATING_CW) {
@@ -3468,9 +3459,9 @@ void update_display(){
           row_override[LCD_STATUS_ROW] = 1;
         } else {
           if (current_az_state() == ROTATING_CW) {
-            strcpy(workstring,CW_STRING);
+            strcat(workstring,CW_STRING);
           } else {
-            strcpy(workstring,CCW_STRING);
+            strcat(workstring,CCW_STRING);
           }
         }        
       }
@@ -3606,10 +3597,7 @@ void update_display(){
           } // switch 
         } //if (preset_encoders_state != ENCODER_IDLE)
       #endif  //defined(FEATURE_AZ_PRESET_ENCODER) && !defined(FEATURE_EL_PRESET_ENCODER)
-/*
-*/
     #endif //!defined(FEATURE_ELEVATION_CONTROL)
-
   #endif //defined(OPTION_DISPLAY_STATUS)
 
   // OPTION_DISPLAY_HHMMSS_CLOCK **************************************************************************************************
@@ -3657,7 +3645,6 @@ void update_display(){
       last_clock_seconds = clock_seconds;
     }
   #endif //defined(OPTION_DISPLAY_HHMMSS_CLOCK) && defined(FEATURE_CLOCK)
-
   // OPTION_DISPLAY_HHMM_CLOCK **************************************************************************************************
   #if defined(OPTION_DISPLAY_HHMM_CLOCK) && defined(FEATURE_CLOCK)
     if (!row_override[LCD_HHMM_CLOCK_ROW]){
@@ -3978,22 +3965,17 @@ void update_display(){
     }
   #endif //defined(OPTION_DISPLAY_BIG_CLOCK) && defined(FEATURE_CLOCK)
 
-
-
-// TODO: develop status row with HH:MM time, rotation status, direction, and GPS status?
-
-// TODO: FEATURE_PARK {done, need to test}, FEATURE_AZ_PRESET_ENCODER and FEATURE_EL_PRESET_ENCODER in status widget {done, need to test}
-  
-
-//zzzzzz
-
-
-
-  // do it ! ************************************
-  //k3ngdisplay.service(force_display_update_now);
-  //force_display_update_now = 0;
-
-
+  char save = workstring[8];
+  lcd.setCursor(0,0);
+  workstring[8] = 0;
+  lcd.print(workstring);
+  lcd.print("         ");
+  lcd.setCursor(0,1);
+  workstring[8] = save;
+  workstring[16] = 0;
+  lcd.print(&(workstring[8]));
+  lcd.print("        ");
+  //Serial.println(workstring);
 }  
 #endif // defined(FEATURE_LCD_DISPLAY) 
 
@@ -4344,6 +4326,7 @@ void read_azimuth(byte force_read){
 
     #ifdef FEATURE_AZ_POSITION_POTENTIOMETER
       analog_az = analogReadEnhanced(rotator_analog_az);
+
       raw_azimuth = map(analog_az, configuration.analog_az_full_ccw, configuration.analog_az_full_cw, (azimuth_starting_point * HEADING_MULTIPLIER), ((azimuth_starting_point + azimuth_rotation_capability) * HEADING_MULTIPLIER));
       //raw_azimuth = map(analog_az* HEADING_MULTIPLIER, configuration.analog_az_full_ccw* HEADING_MULTIPLIER, configuration.analog_az_full_cw* HEADING_MULTIPLIER, (azimuth_starting_point * HEADING_MULTIPLIER), ((azimuth_starting_point + azimuth_rotation_capability) * HEADING_MULTIPLIER));
 
@@ -4366,6 +4349,7 @@ void read_azimuth(byte force_read){
           azimuth = raw_azimuth;
         }
       }
+
     #endif // FEATURE_AZ_POSITION_POTENTIOMETER
 
     #ifdef FEATURE_AZ_POSITION_GET_FROM_REMOTE_UNIT
