@@ -4329,9 +4329,8 @@ void read_azimuth(byte force_read){
 
       raw_azimuth = map(analog_az, configuration.analog_az_full_ccw, configuration.analog_az_full_cw, (azimuth_starting_point * HEADING_MULTIPLIER), ((azimuth_starting_point + azimuth_rotation_capability) * HEADING_MULTIPLIER));
       //raw_azimuth = map(analog_az* HEADING_MULTIPLIER, configuration.analog_az_full_ccw* HEADING_MULTIPLIER, configuration.analog_az_full_cw* HEADING_MULTIPLIER, (azimuth_starting_point * HEADING_MULTIPLIER), ((azimuth_starting_point + azimuth_rotation_capability) * HEADING_MULTIPLIER));
-
       #ifdef FEATURE_AZIMUTH_CORRECTION
-        raw_azimuth = (correct_azimuth(raw_azimuth / (float) HEADING_MULTIPLIER) * HEADING_MULTIPLIER);
+        raw_azimuth = (correct_azimuth(raw_azimuth / (float) HEADING_MULTIPLIER) * HEADING_MULTIPLIER);       
       #endif // FEATURE_AZIMUTH_CORRECTION
       raw_azimuth = raw_azimuth + (configuration.azimuth_offset * HEADING_MULTIPLIER);
       if (AZIMUTH_SMOOTHING_FACTOR > 0) {
@@ -10604,7 +10603,7 @@ byte process_backslash_command(byte input_buffer[], int input_buffer_index, byte
   static unsigned long serial_led_time = 0;
   float tempfloat = 0;
 
-  #if !defined(OPTION_SAVE_MEMORY_EXCLUDE_REMOTE_CMDS)
+  #if !defined(OPTION_SAVE_MEMOfRY_EXCLUDE_REMOTE_CMDS)
     float heading = 0;
   #endif
 
