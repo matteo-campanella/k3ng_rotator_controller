@@ -1084,6 +1084,9 @@ void setup() {
 
   delay(1000);
 
+  pinMode(13,OUTPUT);
+  digitalWrite(13,1);
+
   initialize_serial();
 
   initialize_peripherals();
@@ -14072,6 +14075,3 @@ void service_autopark(){
 
 
 // that's all, folks !
-
-
-
