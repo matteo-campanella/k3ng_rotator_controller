@@ -1078,38 +1078,48 @@ DebugClass debug;
   unsigned long last_activity_time_autopark = 0;
 #endif  
 
+void softReset(){
+asm volatile ("  jmp 0");
+}
+
+bool isOnline() {
+  pinMode(13,OUTPUT);
+  pinMode(A2,INPUT_PULLUP);
+  if (digitalRead(A2) == LOW) {
+    digitalWrite(13,LOW);
+    return(false);
+  }
+  else {
+    digitalWrite(13,HIGH);
+    return(true);
+  }
+}
+
 /* ------------------ let's start doing some stuff now that we got the formalities out of the way --------------------*/
 
 void setup() {
-
   delay(1000);
 
-  pinMode(13,OUTPUT);
-  digitalWrite(13,1);
-
   initialize_serial();
-
   initialize_peripherals();
-
   read_settings_from_eeprom();
-
   initialize_pins();
-
   read_azimuth(0);
-
   initialize_display();
-
   initialize_rotary_encoders();
-
   initialize_interrupts();
-
-
+  
+  while(!isOnline()) {
+    delay(1000);
+  }
 } /* setup */
 
 /*-------------------------- here's where the magic happens --------------------------------*/
 
-void loop() {
 
+void loop() {
+  if (!isOnline()) softReset();
+  
   #ifdef DEBUG_LOOP
     debug.print("loop()\n");
     Serial.flush();
