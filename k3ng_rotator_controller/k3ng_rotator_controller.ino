@@ -1109,16 +1109,17 @@ void setup() {
   initialize_rotary_encoders();
   initialize_interrupts();
   
-  while(!isOnline()) {
-    delay(1000);
-  }
+  //while(!isOnline()) {
+  //  delay(1000);
+  //}
 } /* setup */
 
 /*-------------------------- here's where the magic happens --------------------------------*/
 
 
 void loop() {
-  if (!isOnline()) softReset();
+  isOnline();
+  //if (!isOnline()) softReset();
   
   #ifdef DEBUG_LOOP
     debug.print("loop()\n");
