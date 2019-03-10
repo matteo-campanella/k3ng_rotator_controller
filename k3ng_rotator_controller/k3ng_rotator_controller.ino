@@ -1083,14 +1083,14 @@ asm volatile ("  jmp 0");
 }
 
 bool isOnline() {
-  pinMode(13,OUTPUT);
+  pinMode(12,OUTPUT);
   pinMode(A2,INPUT_PULLUP);
   if (digitalRead(A2) == LOW) {
-    digitalWrite(13,LOW);
+    digitalWrite(12,LOW);
     return(false);
   }
   else {
-    digitalWrite(13,HIGH);
+    digitalWrite(12,HIGH);
     return(true);
   }
 }
@@ -1109,18 +1109,19 @@ void setup() {
   initialize_rotary_encoders();
   initialize_interrupts();
   
-  //while(!isOnline()) {
-  //  delay(1000);
-  //}
+  while(!isOnline()) {
+    delay(1000);
+  }
 } /* setup */
 
 /*-------------------------- here's where the magic happens --------------------------------*/
 
 
 void loop() {
-  isOnline();
-  //if (!isOnline()) softReset();
-  
+  while(!isOnline()) {
+    delay(1000);
+  }
+   
   #ifdef DEBUG_LOOP
     debug.print("loop()\n");
     Serial.flush();
