@@ -12,7 +12,7 @@
 
 #define rotate_cw 6              // goes high to activate rotator R (CW) rotation - pin 1 on Yaesu connector
 #define rotate_ccw 7             // goes high to activate rotator L (CCW) rotation - pin 2 on Yaesu connector
-#define rotate_cw_ccw  0         // goes high for both CW and CCW rotation
+#define rotate_cw_ccw 10         // goes high for both CW and CCW rotation
 #define rotate_cw_pwm 0          // optional - PWM CW output - set to 0 to disable (must be PWM capable pin)
 #define rotate_ccw_pwm 0         // optional - PWM CCW output - set to 0 to disable (must be PWM capable pin)
 #define rotate_cw_ccw_pwm 0      // optional - PWM on CW and CCW output - set to 0 to disable (must be PWM capable pin)

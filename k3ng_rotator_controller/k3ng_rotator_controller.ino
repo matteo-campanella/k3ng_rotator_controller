@@ -7079,7 +7079,7 @@ void initialize_pins(){
   }
 
   if (rotate_cw_ccw) {
-    pinModeEnhanced(rotate_cw_ccw, OUTPUT);
+    pinModeEnhanced(rotate_cw_ccw, OUTPUT);    
   }
 
   #if defined(pin_led_cw)
@@ -14072,6 +14072,3 @@ void service_autopark(){
 
 
 // that's all, folks !
-
-
-

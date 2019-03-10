@@ -191,8 +191,8 @@ You can tweak these, but read the online documentation!
 #define AZ_REMOTE_UNIT_QUERY_TIME_MS 150         // how often we query the remote remote for azimuth
 #define EL_REMOTE_UNIT_QUERY_TIME_MS 150         // how often we query the remote remote for elevation
 
-#define ROTATE_PIN_INACTIVE_VALUE LOW
-#define ROTATE_PIN_ACTIVE_VALUE HIGH
+#define ROTATE_PIN_INACTIVE_VALUE HIGH
+#define ROTATE_PIN_ACTIVE_VALUE LOW
 
 #define AZIMUTH_SMOOTHING_FACTOR 0      // value = 0 to 99.9
 #define ELEVATION_SMOOTHING_FACTOR 0    // value = 0 to 99.9
