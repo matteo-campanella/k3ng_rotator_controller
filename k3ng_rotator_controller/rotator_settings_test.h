@@ -143,6 +143,9 @@ You can tweak these, but read the online documentation!
 #define LCD_SUN_TRACKING_UPDATE_INTERVAL 5000
 #define LCD_MOON_OR_SUN_TRACKING_CONDITIONAL_ROW 3                // LCD display row for OPTION_DISPLAY_MOON_OR_SUN_TRACKING_CONDITIONAL
 #define SPLASH_SCREEN_TIME 3000
+#define LCD_PERIODIC_REDRAW_TIME_SECS 0      // set to 0 to totally disable periodically redrawing the screen
+#define LCD_CLEAR_BEFORE_REDRAW 1            // set to 0 to disable doing a clear before redraw
+#define LCD_REDRAW_UPON_COMMANDS 0           // set to 1 to enable screen redraws upon commands and button presses
 
 #define LCD_HEADING_ROW 2
 #define LCD_HEADING_FIELD_SIZE 20
@@ -350,6 +353,13 @@ You can tweak these, but read the online documentation!
 #define OVERLAP_LED_INACTIVE_STATE LOW 
 
 #define PRESET_ENCODER_CHANGE_TIME_MS 2000
+
+// FEATURE_AZ_ROTATION_STALL_DETECTION
+#define STALL_CHECK_FREQUENCY_MS_AZ 2000
+#define STALL_CHECK_DEGREES_THRESHOLD_AZ 2
+// FEATURE_EL_ROTATION_STALL_DETECTION
+#define STALL_CHECK_FREQUENCY_MS_EL 2000
+#define STALL_CHECK_DEGREES_THRESHOLD_EL 2
 
 //#define SET_I2C_BUS_SPEED 800000L // Can set up to 800 kHz, depending on devices.  800000L = 800 khz, 400000L = 400 khz.  Default is 100 khz
 
