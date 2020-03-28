@@ -18,7 +18,7 @@
 // #define FEATURE_RTC_DS1307
 // #define FEATURE_RTC_PCF8583
 // #define FEATURE_ETHERNET
-// #define FEATURE_STEPPER_MOTOR    // Requires TimerFive library to be copied to the Arduino libraries directory (If using OPTION_STEPPER_MOTOR_USE_TIMER_ONE_INSTEAD_OF_FIVE below, copy the TimeOne library)
+#define FEATURE_STEPPER_MOTOR    // Requires TimerFive library to be copied to the Arduino libraries directory (If using OPTION_STEPPER_MOTOR_USE_TIMER_ONE_INSTEAD_OF_FIVE below, copy the TimeOne library)
 // #define FEATURE_AUTOCORRECT
 // #define FEATURE_TEST_DISPLAY_AT_STARTUP  
 
@@ -39,7 +39,7 @@
 
 
 /* position sensors - pick one for azimuth and one for elevation if using an az/el rotator */
-#define FEATURE_AZ_POSITION_POTENTIOMETER   //this is used for both a voltage from a rotator control or a homebrew rotator with a potentiometer
+// #define FEATURE_AZ_POSITION_POTENTIOMETER   //this is used for both a voltage from a rotator control or a homebrew rotator with a potentiometer
 // #define FEATURE_AZ_POSITION_ROTARY_ENCODER
 // #define FEATURE_AZ_POSITION_ROTARY_ENCODER_USE_PJRC_LIBRARY  // library @ http://www.pjrc.com/teensy/td_libs_Encoder.html  
 // #define FEATURE_AZ_POSITION_PULSE_INPUT
